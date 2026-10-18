@@ -1,12 +1,15 @@
 
 import math,random
 from objetsjeu.briques import GestionBriques
+from objetsjeu.raquette import Raquette
 
 class GestionBalle:
-    def __init__(self, canvas, briques, rayon=15):
+    def __init__(self, canvas, briques, raq, score=0, rayon=15):
         self.canvas = canvas
         self.rayon = rayon
         self.briques = briques
+        self.score = score
+        self.raq = raq
         
         self.canvas.update()  # Force la mise a jour des dimensions
         self.largeur_canvas = self.canvas.winfo_width()
@@ -15,6 +18,7 @@ class GestionBalle:
         #coordonnées de départ du centre de la balle 
         self.posx = (self.largeur_canvas/2)
         self.posy = (self.hauteur_canvas*0.75)
+        #création de la balle 
         self.balle = canvas.create_oval(self.posx-self.rayon, self.posy-self.rayon, self.posx+self.rayon, self.posy+self.rayon, width = 1, outline = 'pink', fill= 'pink')
         
         # caractéristiques initiales aléatoires vitesse et angle de lancement de la balle
@@ -29,6 +33,9 @@ class GestionBalle:
         self.deplacement()
         
     def deplacement(self) :    # respecte la loi de descarte  "angle réfléction"= -"angle incidence"
+        
+        if not self.canvas.winfo_exists():
+            return
             
         #rebond a droite
         if self.posx + self.rayon + self.DX > self.largeur_canvas :
@@ -65,7 +72,11 @@ class GestionBalle:
         objetstouchés = self.canvas.find_overlapping(self.posx-self.rayon, self.posy-self.rayon, self.posx+self.rayon,self.posy+self.rayon)  # Permet de creer un tuple avec les ID de tous les objets touchés par la balle sur le canva. cette fonction prend en argument les coordonnées du carré contenant la balle
         
         for objet in objetstouchés :
-            if objet in self.briques.briques :
+            if objet in self.briques.briques :  #recupère briques du self.briques = briques
                 self.canvas.delete(objet)  #suppression de la brique du canva (visuel)
-                self.briques.briques.remove(objet)  #suppression de l'ID touché dans la liste. Evite de gerer une collision inexistante
+                self.briques.briques.remove(objet)  #suppression de l'ID (briques.briques) touché dans la liste. Evite de gerer une collision inexistante
+                self.score += 10 #ajout de 10 points au score
+                self.DY = -self.DY #changement de direction
+            #on utilise la meme logique pour le rebond sur la raquette 
+            if objet == self.raq.raq :  
                 self.DY = -self.DY
