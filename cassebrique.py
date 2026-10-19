@@ -1,5 +1,5 @@
 
-from tkinter import Tk, Label, Button, Canvas,Toplevel
+from tkinter import Tk, Label, Button, Canvas,Toplevel,PhotoImage
 from objetsjeu.briques import GestionBriques
 from objetsjeu.balle import GestionBalle
 from objetsjeu.raquette import Raquette
