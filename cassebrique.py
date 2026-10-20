@@ -1,5 +1,5 @@
 
-from tkinter import Tk, Label, Button, Canvas,Toplevel,PhotoImage
+from tkinter import Tk, Label, Button, Canvas,Toplevel
 from objetsjeu.briques import GestionBriques
 from objetsjeu.balle import GestionBalle
 from objetsjeu.raquette import Raquette
@@ -22,11 +22,6 @@ def lancerpartie():
     hauteur = 550
     canevas = Canvas(jeu, width=largeur, height=hauteur, bg = 'white' )
     canevas.pack(padx=5, pady=5)
-
-     # Ajout d'une image de fond #
-     image_fond = PhotoImage(file="Wallpaper_casse_brique.png")
-     canevas.image_fond = image_fond 
-     canevas.create_image(0, 0, image=canevas.image_fond, anchor="nw")
 
     
     canevas.focus_set() #indispensable pour relier les touches du clavier au code
